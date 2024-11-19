@@ -1,0 +1,7 @@
+absl-py==2.1.0
+cvxpy==1.5.3
+jax==0.4.34
+numpy==1.26.4
+scipy==1.14.1
+tqdm==4.66.5
+ortools==9.9.3963
