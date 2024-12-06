@@ -88,7 +88,7 @@ def connections(dep: list[np.ndarray], n_e: int) -> updates.CnxStructure:
     b_cnxns_mat.append((b, idx))
   for i in range(n_r):
     f, expand, compress = f_cnxns_mat[i]
-    idx = tuple((np.array(b_cnxns_mat[v][0]) == i).argmax() for v in f)
+    idx = tuple((np.array(b_cnxns_mat[v][0]) == i).argmax() for v in f)  # pytype: disable=name-error
     f_cnxns_mat2.append((f, idx, expand, compress))
   cnxnt_mat = tuple([tuple(np.arange(len(dep[i]))) for i in range(len(dep))])
   return tuple(f_cnxns_mat2), tuple(b_cnxns_mat), cnxnt_mat
@@ -370,7 +370,7 @@ def score_last(
     log_qxa_all: Log of pseudomarginals at all xa factors
     logt_mat: Log of transition matrices for the dynamics
     cvx: Whether to use the weighting numbers from the convex approximation
-    r_cnxns: Conectivity structure for the rewards
+    r_cnxns: Connectivity structure for the rewards
     logr_mat: Log of the analogous to the transition matrices for the rewards
 
   Returns:

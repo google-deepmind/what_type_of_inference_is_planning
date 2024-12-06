@@ -111,7 +111,7 @@ def bwd_reward(
     fwd_in: Forward incoming message into the "front" of the slice
     bwd_fut: Backward outgoing message out of the "front" of the next slice
     logr_mat: Log of the analogous to the transition matrices for the rewards
-    r_cnxns: Conectivity structure for the rewards
+    r_cnxns: Connectivity structure for the rewards
     f_matfut: Estimated, untransformed value (combined reward from all future
       steps), from the next slice onwards
     min_val: Minimum value that messages can have (log-space)
@@ -184,7 +184,7 @@ def update_xp(
   Args:
     fwd_in: Forward incoming message into the "front" of the slice
     mess_jx_b_out: Backward outgoing messages from joint parent variables
-    t_cnxns: Conectivity structure for the dynamics
+    t_cnxns: Connectivity structure for the dynamics
     mess_xp_f_out: Forward outgoing messages from the state variables
 
   Returns:
@@ -239,7 +239,7 @@ def update_jx(
     mess_xa_b_inc: Factor between the joint parent variables and the action
       after the backwards incoming messages has been marginalized
     logt_mat: Log of transition matrices for the dynamics
-    t_cnxns: Conectivity structure for the dynamics
+    t_cnxns: Connectivity structure for the dynamics
     eps: Current epsilon value (see paper)
     mess_jx_f_out: Forward outgoing messages from joint parent variables
     mess_jx_b_out: Backward outgoing messages from joint parent variables
@@ -435,7 +435,7 @@ def vbp1step(
     fwd_in: Forward incoming message into the "front" of the slice
     bwd_in: Backward incoming message into the "back" of the slice
     logt_mat: Log of transition matrices for the dynamics
-    t_cnxns: Conectivity structure for the dynamics
+    t_cnxns: Connectivity structure for the dynamics
     cvx: Whether to use the weighting numbers from the convex approximation
     eps: Current epsilon value (see paper)
     min_val: Minimum value that messages can have (log-space)
