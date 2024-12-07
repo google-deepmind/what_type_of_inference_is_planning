@@ -25,6 +25,7 @@ import jax
 from jax import random
 
 from what_type_of_inference_is_planning.agents import agent_fwdbp
+from what_type_of_inference_is_planning.agents import agent_maxent
 from what_type_of_inference_is_planning.agents import agent_random
 from what_type_of_inference_is_planning.agents import agent_vbp
 from what_type_of_inference_is_planning.agents import agent_vilp
@@ -43,7 +44,9 @@ _INST_ID = flags.DEFINE_integer("inst_id", default=1, help="Inst ID to test.")
 _SEED = flags.DEFINE_integer("seed", default=0, help="Seed for environment.")
 
 _AGENT = flags.DEFINE_string(
-    "agent", default="random", help="Agent to test. [vilp, vbp, fwdbp, random]"
+    "agent",
+    default="random",
+    help="Agent to test. [vilp, vbp, fwdbp, maxent, random]",
 )
 
 _USE_RAND = flags.DEFINE_bool(
@@ -84,6 +87,8 @@ def main(argv: Sequence[str]) -> None:
     agent = agent_random.AgentRandom(env)
   elif _AGENT.value == "vbp":
     agent = agent_vbp.AgentVBP(env, horizon=_HORIZON.value)
+  elif _AGENT.value == "maxent":
+    agent = agent_maxent.AgentME(env, horizon=_HORIZON.value)
   else:
     raise ValueError("Unknown agent: %s" % _AGENT.value)
   logging.info("------ %s ---- seed %d ---", dataset, seed)

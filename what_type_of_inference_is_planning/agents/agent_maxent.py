@@ -26,17 +26,21 @@ from what_type_of_inference_is_planning.agents.algorithms import maxent_vbp
 from what_type_of_inference_is_planning.envs import environment
 
 _MAX_RETRIES = flags.DEFINE_integer(
-    "max_retries", default=5, help="maximum number of times to rerun the solver"
+    "max_retries_me",
+    default=1,
+    help="maximum number of times to rerun the solver",
 )
 _MAX_ITER = flags.DEFINE_integer(
-    "max_iter", default=500, help="max outer iterations for solver"
+    "max_iter_me", default=500, help="max outer iterations for solver"
 )
 _MAX_INNER_ITER = flags.DEFINE_integer(
-    "max_inner_iter", default=10_000, help="max inner iterations for solver"
+    "max_inner_iter_me", default=1000, help="max inner iterations for solver"
 )
-_DAMPING = flags.DEFINE_float("damping", default=0.5, help="Damping for solver")
+_DAMPING = flags.DEFINE_float(
+    "damping_me", default=0.5, help="Damping for solver"
+)
 _ALPHA = flags.DEFINE_float(
-    "alpha", default=0.1, help="Scale of the policy regularization"
+    "alpha_me", default=0.1, help="Scale of the policy regularization"
 )
 
 

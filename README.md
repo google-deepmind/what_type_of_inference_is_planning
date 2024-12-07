@@ -69,6 +69,8 @@ python3 evaluate_agent.py --task_name=game_of_life_inst_mdp --inst_id=1 --seed=0
 python3 evaluate_agent.py --task_name=sysadmin_inst_mdp --inst_id=1 --seed=0 --agent=fwdbp
 # Agent that uses value belief propagation. (VBP in paper)
 python3 evaluate_agent.py --task_name=skill_teaching_inst_mdp --inst_id=1 --seed=0 --agent=vbp
+# Agent that uses max entropy value belief propagation. (maxent in paper appendix)
+python3 evaluate_agent.py --task_name=skill_teaching_inst_mdp --inst_id=1 --seed=0 --agent=maxent
 ```
 
 The cumulative rewards are stored in separate files under the result folder for
@@ -86,10 +88,12 @@ what_type_of_inference_is_planning.
 │   ├── agent_random.py
 │   ├── agent_vbp.py
 │   ├── agent_vilp.py
+│   ├── agent_maxent.py
 │   └── algorithms
 │       ├── bin_planner.py
 │       ├── fwd_bp.py
 │       ├── updates.py
+│       ├── maxent_vbp.py
 │       └── value_bp.py
 ├── envs
 │   └── environment.py

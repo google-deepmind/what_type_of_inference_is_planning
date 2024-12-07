@@ -16,6 +16,7 @@
 """Maximum Entropy Value Belief Propagation (MEVBP)."""
 
 import functools
+from typing import Any
 import warnings
 
 import jax
@@ -155,7 +156,9 @@ def solve1step(
     bwd_in: jax.Array,
     max_inner_iter: int,
     tol: float,
-) -> tuple[float, list[jax.Array], jax.Array, jax.Array, jax.Array, int, float]:
+) -> tuple[
+    jax.Array, list[jax.Array], jax.Array, Any, jax.Array, int, jax.Array
+]:
   """Solve the optimization problem corresponding to 1 step of the MDP.
 
   Args:
@@ -330,15 +333,15 @@ def mevbp(
     progress_bar: bool = False,
     rescale_reward: bool = True,
 ) -> tuple[
-    float,
-    np.ndarray,
-    jax.Array,
-    jax.Array,
     jax.Array,
     np.ndarray,
     np.ndarray,
     jax.Array,
-    float,
+    jax.Array,
+    np.ndarray,
+    np.ndarray,
+    Any,
+    jax.Array,
 ]:
   """Runs MaxEnt value belief propagation (MaxEnt VBP).
 
@@ -425,19 +428,17 @@ def mevbp(
   val_step[0] = (jnp.exp(mess_fwd[0]) * bwd_out).sum()
   log_qa_all = np.zeros((n_steps - 1, n_a))
   pbar = tqdm.tqdm(range(max_iter), disable=not progress_bar)
-  n_iter, delta_sum, log_qxa_all = 0, 0.0, None
+  n_iter, delta_sum, log_qxa_all = 0, jnp.array(0.0), None
   for _ in pbar:
-    delta_sum = 0.0
+    delta_sum = jnp.array(0.0)
 
     t = n_steps - 1
     bwd_out = backward(mess_fwd[t], rew_scaled, r_cnxns)
-    # delta_sum += jnp.abs(bwd_out - mess_bwd[t]).sum()
     mess_bwd = mess_bwd.at[t].set(bwd_out)
 
     for t in range(n_steps - 2, -1, -1):
       val_step[t + 1], _, bwd_out, _, _, _ = step(t, mess_fwd, mess_bwd)
       delta = bwd_out - mess_bwd[t]
-      # delta_sum += jnp.abs(delta).sum()
       mess_bwd = mess_bwd.at[t].add(damping * delta)
     log_qxa_all = []
     for t in range(n_steps - 1):
@@ -485,7 +486,7 @@ def mevbp(
 
 def score_all(
     mess_fwd: jax.Array, rew_scaled: list[jax.Array], r_cnxns: CnxStructure
-) -> float:
+) -> jax.Array:
   """Computes the score of the current messages.
 
   Args:
@@ -498,7 +499,7 @@ def score_all(
   """
   n_steps = mess_fwd.shape[0]
   n_r = len(rew_scaled)
-  score = 0.0
+  score = jnp.array(0.0)
   for t in range(n_steps):
     log_fwd = create_joints(mess_fwd[t], r_cnxns)
     for r in range(n_r):
